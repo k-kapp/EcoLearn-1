@@ -1768,8 +1768,6 @@ void GLWidget::read_pdb_canopy(std::string pathname)
 {
     canopytrees = data_importer::read_pdb(pathname);
     filter_plants( canopytrees );
-    canopytrees_indices = true;
-    convert_canopytrees_to_real_species();
 
     // calculate quick and dirty canopy shading, based on just reducing grass height under each
     // tree based on its alpha value, then smoothing
