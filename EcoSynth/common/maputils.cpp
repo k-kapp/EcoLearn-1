@@ -8,6 +8,7 @@
 #include "map.h"
 #include "maputils.h"
 
+/*
 std::pair<MemMap<height_tag>, MemMap<mask_tag> >
 demultiplex(const MemMap<height_and_mask_tag> &in)
 {
@@ -31,3 +32,4 @@ demultiplex(const MemMap<height_and_mask_tag> &in)
 
     return out;
 }
+*/

@@ -587,6 +587,7 @@ private:
     void sparse_to_void();
     void init_underspacer();
     void init_undersynth();
+    void filter_plants(std::vector<basic_tree> &plants);
 };
 
 #endif

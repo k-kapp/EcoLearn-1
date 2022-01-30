@@ -35,7 +35,7 @@ find_package(Qt5OpenGL 5 REQUIRED)
 find_package(OpenGL)
 find_package(GLUT)
 ## use dpkg -L libzmq3-dev to find library location
-find_library(ZMQ_LIBRARY NAMES zmq zmq3 HINTS "/usr/lib/x86_64-linux-gnu/")
+find_library(ZMQ_LIBRARY NAMES zmq zmq3 zmq5 HINTS "/usr/lib/x86_64-linux-gnu/")
 pkg_check_modules(CppUnit cppunit)
 pkg_check_modules(GLEW glew)
 pkg_check_modules(OpenEXR REQUIRED OpenEXR)

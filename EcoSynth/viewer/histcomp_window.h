@@ -66,7 +66,7 @@ protected:
     void closeEvent(QCloseEvent *event) override;
 private:
     QLabel *clicklabel;
-    std::unordered_map<int, typeof(spinfo)> speciesinfo;
+    std::unordered_map<int, __typeof__(spinfo)> speciesinfo;
     std::vector<histinfo> hists;
     int curr_selected_id;
 

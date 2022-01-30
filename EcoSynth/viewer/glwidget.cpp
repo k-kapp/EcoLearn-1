@@ -1747,10 +1747,29 @@ void GLWidget::doCanopyPlacement()
 
 }
 
+void GLWidget::filter_plants( std::vector< basic_tree > &plants) {
+    float rw, rh;
+    getTerrain()->getTerrainDim( rw, rh );
+    std::vector< int > rmidxes;
+    for ( int i = 0; i < plants.size(); i++ ) {
+        const auto &plnt = plants[i];
+        if ( plnt.x < 0.1f || plnt.x > rw - 0.1f
+             || plnt.y < 0.1f || plnt.y > rh - 0.1f ) {
+            rmidxes.push_back( i );
+        }
+    }
+
+    for ( auto rmiter = rmidxes.rbegin(); rmiter != rmidxes.rend(); advance( rmiter, 1 ) ) {
+        plants.erase( std::next( plants.begin(), *rmiter ) );
+    }
+}
+
 void GLWidget::read_pdb_canopy(std::string pathname)
 {
     canopytrees = data_importer::read_pdb(pathname);
-    canopytrees_indices = false;
+    filter_plants( canopytrees );
+    canopytrees_indices = true;
+    convert_canopytrees_to_real_species();
 
     // calculate quick and dirty canopy shading, based on just reducing grass height under each
     // tree based on its alpha value, then smoothing

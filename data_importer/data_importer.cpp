@@ -743,7 +743,7 @@ static int sql_callback_common_data_models(void *write_info, int argc, char ** a
         std::cout << "WARNING: maximum height (" << model.hmax << ") for model " << model.vueid << " is higher than maximum height for species " << tree_id << ", which is " << common->canopy_and_under_species.at(tree_id).maxhght << std::endl;
     }
     common->modelsamplers[tree_id].add_model(model);
-
+    return 0;
 }
 
 static int sql_callback_common_data_species(void *write_info, int argc, char ** argv, char **colnames)
@@ -1073,6 +1073,7 @@ static int sql_callback_common_data_check_tables(void *junk, int argc, char ** a
         std::cout << colnames[i] << ": " << value << std::endl;
     }
     std::cout << std::endl;
+    return 0;
 }
 
 static void sql_err_handler(sqlite3 *db, int errcode, char * errmsg)
