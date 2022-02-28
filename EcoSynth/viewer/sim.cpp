@@ -35,6 +35,7 @@
 void MapSimCell::initMap()
 {
     smap.clear();
+    std::cout << "Resizing smap to " << gx * gy << std::endl;
     smap.resize(gx*gy);
     for(int c = 0; c < gx*gy; c++) // empty cells are always sorted
     {
@@ -371,9 +372,11 @@ bool MapSimCell::validate(std::vector<SimPlant> *plnts)
 ///
 void Simulation::initSim(int dx, int dy, int subcellfactor)
 {
+    std::cout << "Creating simcells..." << std::endl;
     simcells.setDim(dx*subcellfactor, dy*subcellfactor, subcellfactor);
     for(int m = 0; m < 12; m++)
     {
+        std::cout << "in month " << m << std::endl;
         MapFloat sun, mst, sunland;
         sun.setDim(dx, dy);
         mst.setDim(dx, dy);
@@ -386,7 +389,9 @@ void Simulation::initSim(int dx, int dy, int subcellfactor)
         rainfall.push_back(0.0f);
     }
     slope.setDim(dx, dy);
+    std::cout << "Creating sunsim..." << std::endl;
     sunsim = new SunLight();
+    std::cout << "Creating dice..." << std::endl;
     dice = new DiceRoller(0,1000);
     time = 0.0f;
 }

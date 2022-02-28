@@ -1,8 +1,10 @@
+#!/bin/python
+
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-import tensorflow as tf
+import tensorflow.compat.v1 as tf
 import numpy as np
 import argparse
 import os
@@ -18,6 +20,8 @@ import zmq
 import subprocess
 from scipy import signal
 from numpngw import write_png
+
+tf.disable_v2_behavior()
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--input_dir", help="path to folder containing images")
@@ -603,7 +607,7 @@ def main():
     socket, context = create_socket_and_context()
     # demon mode
 
-    interface_proc = subprocess.Popen(["./viewer", str(a.scale_size)])
+    interface_proc = subprocess.Popen(["viewer", str(a.scale_size)])
 
     while True: 
         image, buf, start = get_image_from_socket(socket)       # returning the buf object, since I do not know if it will get cleaned up if its scope is only the function

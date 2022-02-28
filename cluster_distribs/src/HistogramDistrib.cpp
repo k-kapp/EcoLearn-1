@@ -1242,6 +1242,8 @@ bool HistogramDistrib::add_dist(float dist, normalize_method nmeth)
     bins.at(binnum) += 1.0f;
     normalize(nmeth);
     refcount++;
+
+    return true;
 }
 
 void HistogramDistrib::remove_dist(float dist, normalize_method nmeth)

@@ -191,8 +191,9 @@ Scene::Scene()
     int dx, dy;
     terrain->getGridDim(dx, dy);
 
-    for(TypeMapType t: all_typemaps)
+    for(TypeMapType t: all_typemaps) {
         maps[(int) t] = new TypeMap(dx, dy, t);
+    }
     maps[2]->setRegion(terrain->coverRegion());
     grass = new GrassSim();
     moisture = new MapFloat();
@@ -234,6 +235,7 @@ GLWidget::GLWidget(const QGLFormat& format, int scale_size, QWidget *parent)
     : QGLWidget(format, parent), prj_src_dir(PRJ_SRC_DIR), db_pathname(std::string(PRJ_SRC_DIR) + "/ecodata/sonoma.db"), plant_sqldb_name(db_pathname), cdata(plant_sqldb_name),
       scale_size(scale_size), sceneloaded(false), undergrowth_sampled(false)
 {
+    std::cout << "In GLWidget ctor" << std::endl;
     assign_times = 0;
     qtWhite = QColor::fromCmykF(0.0, 0.0, 0.0, 0.0);
     vizpopup = new QLabel();
@@ -245,14 +247,17 @@ GLWidget::GLWidget(const QGLFormat& format, int scale_size, QWidget *parent)
 
     connect(this, SIGNAL(signalRepaintAllFromThread()), this, SLOT(repaint()));
 
+    std::cout << "Adding main design scene..." << std::endl;
     // main design scene
     addScene();
 
+    //std::cout << "Adding database display and picking scene..." << std::endl;
     // database display and picking scene
-    addScene();
+    //addScene();
 
     currscene = 0;
 
+    std::cout << "Creating renderer and palette..." << std::endl;
     renderer = new PMrender::TRenderer(NULL, "../viewer/shaders/");
     palette = new BrushPalette(getTypeMap(TypeMapType::PAINT), 3, this);
 
@@ -274,6 +279,7 @@ GLWidget::GLWidget(const QGLFormat& format, int scale_size, QWidget *parent)
         specbrushes.push_back(p.second.idx);
     }
 
+    std::cout << "adding species palette..." << std::endl;
     species_palette = new SpeciesPalette(getTypeMap(TypeMapType::SPECIES), specbrushes, this);
 
     setRadius(250.0f);
@@ -1768,6 +1774,7 @@ void GLWidget::read_pdb_canopy(std::string pathname)
 {
     canopytrees = data_importer::read_pdb(pathname);
     filter_plants( canopytrees );
+    canopytrees_indices = false;
 
     // calculate quick and dirty canopy shading, based on just reducing grass height under each
     // tree based on its alpha value, then smoothing
@@ -1796,6 +1803,8 @@ bool GLWidget::hasSceneLoaded()
 void GLWidget::read_pdb_undergrowth(std::string pathname)
 {
     underplants = data_importer::read_pdb(pathname);
+
+    filter_plants( underplants );
 
     redrawPlants(false, layerspec::ALL, clearplants::YES);
 
